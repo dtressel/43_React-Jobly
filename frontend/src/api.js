@@ -37,7 +37,12 @@ class JoblyApi {
   // Individual API routes
 
   static async getCompanies(params) {
-    const res = await axios.get(`${BASE_URL}/companies`, { params: params, headers: { Authorization: `Bearer ${JoblyApi.token}` } });
+    const res = await axios.get(`${BASE_URL}/companies`, { params: params });
+    return res.data;
+  }
+
+  static async getJobs(params) {
+    const res = await axios.get(`${BASE_URL}/jobs`, { params: params });
     return res.data;
   }
 

@@ -18,7 +18,7 @@ const Companies = () => {
     getCompanies()
   }, [params]);
 
-  const updateParams = (filter, value) => {
+  const updateParams = (value, filter = 'nameLike') => {
     setParams({ ...params, [filter]: value });
   }
 

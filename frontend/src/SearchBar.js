@@ -2,14 +2,14 @@ import { Button, Input } from 'reactstrap';
 import './SearchBar.css';
 
 const SearchBar = ({ setSearchValue, searchValue, updateParams }) => {
-  const setNameLike = (evt) => {
+  const submitFilter = (evt) => {
     evt.preventDefault();
-    updateParams('nameLike', searchValue);
+    updateParams(searchValue);
     setSearchValue('');
   }
 
   return (
-    <form className="SearchBar" onSubmit={setNameLike} >
+    <form className="SearchBar" onSubmit={submitFilter} >
       <Input 
         type="text"
         bsSize="lg"
