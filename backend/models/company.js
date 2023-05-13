@@ -64,7 +64,7 @@ class Company {
     let whereExpressions = [];
     let queryValues = [];
 
-    const { minEmployees, maxEmployees, name } = searchFilters;
+    const { minEmployees, maxEmployees, nameLike } = searchFilters;
 
     if (minEmployees > maxEmployees) {
       throw new BadRequestError("Min employees cannot be greater than max");
@@ -83,8 +83,8 @@ class Company {
       whereExpressions.push(`num_employees <= $${queryValues.length}`);
     }
 
-    if (name) {
-      queryValues.push(`%${name}%`);
+    if (nameLike) {
+      queryValues.push(`%${nameLike}%`);
       whereExpressions.push(`name ILIKE $${queryValues.length}`);
     }
 
