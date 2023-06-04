@@ -1,29 +1,51 @@
 import "./NavBar.css";
+import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { Navbar, Nav, NavItem } from "reactstrap";
+import UserContext from './UserContext';
 
-const NavBar = () => {
+const NavBar = ({ logoutUser }) => {
+  const { username } = useContext(UserContext);
+
+  const handleLogout = () => {
+    logoutUser();
+  }
+
   return(
     <div>
       <Navbar expand="md">
         <NavLink to="/" className="navbar-brand">Jobly</NavLink>
-
         <Nav className="ml-auto" navbar>
-          <NavItem>
-            <NavLink to="/login">Login</NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink to="/signup">Singup</NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink to="/companies">Companies</NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink to="/jobs">Jobs</NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink to="/profile">Profile</NavLink>
-          </NavItem>
+          {username 
+            ?
+              <>
+                <NavItem>
+                  <NavLink to="/companies">Companies</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink to="/jobs">Jobs</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink to="/profile">Profile</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink 
+                    className="NavBar-no-active-style"
+                    onClick={handleLogout} 
+                    to='/'
+                  >Log out {username}</NavLink>
+                </NavItem>
+              </>
+            :
+              <>
+                <NavItem>
+                  <NavLink to="/login">Login</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink to="/signup">Signup</NavLink>
+                </NavItem>
+              </>
+          }
         </Nav>
       </Navbar>
     </div>

@@ -9,7 +9,7 @@ nav {
 }
 
 .nav-item {
-  width: 100px;
+  min-width: 100px;
   text-align: center;
 }
 
@@ -18,7 +18,7 @@ nav a {
   text-decoration: none;
 }
 
-nav a.active {
+nav a.active:not(.NavBar-no-active-style) {
   color: #f0f2f5;
   font-weight: bold;
   border-bottom: 5px dotted;

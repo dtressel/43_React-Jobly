@@ -6,24 +6,32 @@ import CompanyDetails from './CompanyDetails';
 import Jobs from './Jobs';
 import Signup from './Signup';
 import Profile from './Profile';
+import Login from './Login';
+import userContext from './UserContext';
+import useCurrentUser from "./hooks/useCurrentUser";
 import './App.css';
 
 function App() {
+  const [currentUser, signupUser, loginUser, logoutUser] = useCurrentUser();
+
   return (
     <div className="App">
-      <NavBar />
-      <div className="App-main-wrapper">
-        <main>
-          <Routes>
-            <Route path='/' element={<Home />} />
-            <Route path='/companies' element={<Companies />} />
-            <Route path='/companies/:handle' element= {<CompanyDetails />} />
-            <Route path='/jobs' element={<Jobs />} />
-            <Route path='/singup' element={<Signup />} />
-            <Route path='/profile' element={<Profile />} />
-          </Routes>
-        </main>
-      </div>
+      <userContext.Provider value={currentUser}>
+        <NavBar logoutUser={logoutUser} />
+        <div className="App-main-wrapper">
+          <main>
+            <Routes>
+              <Route path='/' element={<Home />} />
+              <Route path='/companies' element={<Companies />} />
+              <Route path='/companies/:handle' element= {<CompanyDetails />} />
+              <Route path='/jobs' element={<Jobs />} />
+              <Route path='/signup' element={<Signup signupUser={signupUser}/>} />
+              <Route path='/profile' element={<Profile />} />
+              <Route path='/login' element={<Login loginUser={loginUser} />} />
+            </Routes>
+          </main>
+        </div>
+      </userContext.Provider>
     </div>
   );
 }
