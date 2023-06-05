@@ -5,7 +5,7 @@ import { Navbar, Nav, NavItem } from "reactstrap";
 import UserContext from './UserContext';
 
 const NavBar = ({ logoutUser }) => {
-  const { username } = useContext(UserContext);
+  const user = useContext(UserContext);
 
   const handleLogout = () => {
     logoutUser();
@@ -16,7 +16,7 @@ const NavBar = ({ logoutUser }) => {
       <Navbar expand="md">
         <NavLink to="/" className="navbar-brand">Jobly</NavLink>
         <Nav className="ml-auto" navbar>
-          {username 
+          {user
             ?
               <>
                 <NavItem>
@@ -33,7 +33,7 @@ const NavBar = ({ logoutUser }) => {
                     className="NavBar-no-active-style"
                     onClick={handleLogout} 
                     to='/'
-                  >Log out {username}</NavLink>
+                  >Log out {user.username}</NavLink>
                 </NavItem>
               </>
             :

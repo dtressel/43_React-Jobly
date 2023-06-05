@@ -1,23 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import JoblyApi from '../api';
 
 const useCurrentUser = () => {
-  const initialState = { username: null,
-                         firstName: null, 
-                         lastName: null, 
-                         email: null, 
-                         isAdmin: null };
+  const [currentUser, setCurrentUser] = useState(undefined);
 
-  const [currentUser, setCurrentUser] = useState(initialState);
-
-  useEffect(() => {
+  if (currentUser === undefined) {
     const savedUser = JSON.parse(localStorage.getItem("user"));
     if (savedUser) {
       const { token, ...rest } = savedUser;
       setCurrentUser(rest);
       JoblyApi.token = token;
     }
-  }, []);
+  }
 
   const signupUser = async (signupInfo) => {
     const newToken = await JoblyApi.signupUser(signupInfo);
@@ -37,7 +31,7 @@ const useCurrentUser = () => {
 
   const logoutUser = () => {
     JoblyApi.token = null;
-    setCurrentUser(initialState);
+    setCurrentUser(null);
     localStorage.removeItem("user");
   }
 

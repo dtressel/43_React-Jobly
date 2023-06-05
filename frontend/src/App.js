@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import NavBar from './NavBar';
 import Home from './Home';
 import Companies from './Companies';
@@ -22,12 +22,21 @@ function App() {
           <main>
             <Routes>
               <Route path='/' element={<Home />} />
-              <Route path='/companies' element={<Companies />} />
-              <Route path='/companies/:handle' element= {<CompanyDetails />} />
-              <Route path='/jobs' element={<Jobs />} />
-              <Route path='/signup' element={<Signup signupUser={signupUser}/>} />
-              <Route path='/profile' element={<Profile />} />
-              <Route path='/login' element={<Login loginUser={loginUser} />} />
+              <Route path='/*' element={<Navigate to="/" replace={true} />} />
+              {currentUser 
+                ?
+                  <>
+                    <Route path='/companies' element={<Companies />} />
+                    <Route path='/companies/:handle' element= {<CompanyDetails />} />
+                    <Route path='/jobs' element={<Jobs />} />
+                    <Route path='/profile' element={<Profile />} />
+                  </>
+                : 
+                  <>
+                    <Route path='/signup' element={<Signup signupUser={signupUser}/>} />
+                    <Route path='/login' element={<Login loginUser={loginUser} />} />
+                  </>
+              }
             </Routes>
           </main>
         </div>
