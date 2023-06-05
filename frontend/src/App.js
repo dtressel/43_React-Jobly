@@ -12,7 +12,7 @@ import useCurrentUser from "./hooks/useCurrentUser";
 import './App.css';
 
 function App() {
-  const [currentUser, signupUser, loginUser, logoutUser] = useCurrentUser();
+  const [currentUser, signupUser, loginUser, logoutUser, validatePassword, updateUser, addApplication] = useCurrentUser();
 
   return (
     <div className="App">
@@ -27,9 +27,9 @@ function App() {
                 ?
                   <>
                     <Route path='/companies' element={<Companies />} />
-                    <Route path='/companies/:handle' element= {<CompanyDetails />} />
-                    <Route path='/jobs' element={<Jobs />} />
-                    <Route path='/profile' element={<Profile />} />
+                    <Route path='/companies/:handle' element= {<CompanyDetails addApplication={addApplication} />} />
+                    <Route path='/jobs' element={<Jobs addApplication={addApplication} />} />
+                    <Route path='/profile' element={<Profile validatePassword={validatePassword} updateUser={updateUser} />} />
                   </>
                 : 
                   <>

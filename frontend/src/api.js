@@ -36,36 +36,59 @@ class JoblyApi {
 
   // Individual API routes
 
+  /* Get list of all companies */
   static async getCompanies(params) {
-    const res = await axios.get(`${BASE_URL}/companies`, { params: params });
-    return res.data;
+    const data = await this.request(`companies`, params);
+    return data;
+    // const res = await axios.get(`${BASE_URL}/companies`, { params: params });
+    // return res.data;
   }
 
+  /* Get list of all jobs */
   static async getJobs(params) {
-    const res = await axios.get(`${BASE_URL}/jobs`, { params: params });
-    return res.data;
+    const data = await this.request(`jobs`, params);
+    return data;
+    // const res = await axios.get(`${BASE_URL}/jobs`, { params: params });
+    // return res.data;
   }
 
+  /* Register user */
   static async signupUser(signupInfo) {
-    const res = await axios.post(`${BASE_URL}/auth/register`, signupInfo);
-    return res.data.token;
+    const data = await this.request(`auth/register`, signupInfo, "post");
+    return data.token;
+    // const res = await axios.post(`${BASE_URL}/auth/register`, signupInfo);
+    // return res.data.token;
   }
 
+  /* Login user */
   static async loginUser(loginInfo) {
-    const res = await axios.post(`${BASE_URL}/auth/token`, loginInfo);
-    return res.data.token;
+    const data = await this.request(`auth/token`, loginInfo, "post");
+    return data.token;
+    // const res = await axios.post(`${BASE_URL}/auth/token`, loginInfo);
+    // return res.data.token;
   }
 
-  /** Get details on a company by handle. */
-
+  /* Get details on a company by handle. */
   static async getCompany(handle) {
-    let data = await this.request(`companies/${handle}`);
+    const data = await this.request(`companies/${handle}`);
     return data.company;
   }
 
+  /* Get details on a user by username */
   static async getUser(username) {
-    let data = await this.request(`users/${username}`);
+    const data = await this.request(`users/${username}`);
     return data.user;
+  }
+
+  /* Update information for a particular user */
+  static async updateUser(username, updateInfo) {
+    const data = await this.request(`users/${username}`, updateInfo, "patch");
+    return data.user;
+  }
+
+  /* Applies to a job */
+  static async applyJob(username, jobId) {
+    await this.request(`users/${username}/jobs/${jobId}`, {}, "post");
   }
 }
 

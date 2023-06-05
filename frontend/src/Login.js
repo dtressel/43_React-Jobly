@@ -12,7 +12,6 @@ const Login = ({ loginUser }) => {
 
   const handleSubmit = async evt => {
     evt.preventDefault();
-    console.log(formData);
     await loginUser(formData);
     resetForm();
     navigate("/");

@@ -15,7 +15,6 @@ const Signup = ({ signupUser }) => {
 
   const handleSubmit = async evt => {
     evt.preventDefault();
-    console.log(formData);
     await signupUser(formData);
     resetForm();
     navigate("/");
@@ -41,7 +40,7 @@ const Signup = ({ signupUser }) => {
             value={formData.password}
             onChange={handleChange}
           />
-          <Label htmlFor="firstName">First name</Label>
+          <Label htmlFor="firstName">First Name</Label>
           <Input 
             type="text"
             id="firstName"

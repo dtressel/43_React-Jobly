@@ -3,7 +3,7 @@ import JoblyApi from "./api";
 import SearchBar from "./SearchBar";
 import JobCard from "./JobCard";
 
-const Jobs = () => {
+const Jobs = ({ addApplication }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [jobs, setJobs] = useState([]);
   const [searchValue, setSearchValue] = useState('');
@@ -29,7 +29,7 @@ const Jobs = () => {
   return (
     <div>
       <SearchBar setSearchValue={setSearchValue} searchValue={searchValue} updateParams={updateParams} />
-      {jobs.map((job) => <JobCard job={job} key={job.id} />)}
+      {jobs.map((job) => <JobCard job={job} addApplication={addApplication} key={job.id} />)}
     </div>
   )
 }
