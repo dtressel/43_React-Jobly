@@ -1,6 +1,5 @@
-import { useContext } from "react";
-import { Label, Input, Button } from 'reactstrap';
-import { useNavigate } from 'react-router-dom';
+import { useContext, useState } from "react";
+import { Label, Input, Button, Alert } from 'reactstrap';
 import useFields from './hooks/useFields';
 import UserContext from './UserContext';
 import './LoginSignup.css';
@@ -14,7 +13,18 @@ const Profile = ({ validatePassword, updateUser }) => {
     email: user.email,
     password: ''
   })
-  const navigate = useNavigate();
+  const [alertMessage, setAlertMessage] = useState();
+
+  let alertElement;
+  if (alertMessage) {
+    if (alertMessage.type) {
+      alertElement = <Alert color={alertMessage.type}>{alertMessage.message}</Alert>
+    }
+    else {
+      
+    }
+
+  }
 
   const handleSubmit = async evt => {
     evt.preventDefault();
@@ -24,15 +34,15 @@ const Profile = ({ validatePassword, updateUser }) => {
                                          lastName: formData.lastName,
                                          email: formData.email });
       if (results.updated) {
-        alert(results.message);
-        navigate("/");
+        setAlertMessage({ message: results.message, type: null });
+        resetForm();
       }
       else {
-        alert(results.message);
+        setAlertMessage({ message: results.message, type: "danger" });
       }
     }
     else {
-      alert('Invalid password. Changes not saved. Please try again.');
+      setAlertMessage({ message: 'Invalid password. Changes not saved. Please try again.', type: "danger" });
     }
   }
 
@@ -86,6 +96,7 @@ const Profile = ({ validatePassword, updateUser }) => {
           />
           <Button type="submit" color="primary">Submit</Button>
         </form>
+        {alertElement}
       </div>
     </>
   )

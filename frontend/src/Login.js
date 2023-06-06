@@ -1,4 +1,5 @@
-import { Label, Input, Button } from 'reactstrap';
+import { useState } from 'react';
+import { Label, Input, Button, Alert } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
 import useFields from './hooks/useFields';
 import './LoginSignup.css';
@@ -9,12 +10,18 @@ const Login = ({ loginUser }) => {
     password: ''
   })
   const navigate = useNavigate();
+  const [alertMessages, setAlertMessages] = useState();
 
   const handleSubmit = async evt => {
     evt.preventDefault();
-    await loginUser(formData);
-    resetForm();
-    navigate("/");
+    const res = await loginUser(formData);
+    if (res.successful) {
+      resetForm();
+      navigate("/");
+    }
+    else {
+      setAlertMessages(res.messages);
+    }
   }
   return (
     <>
@@ -39,6 +46,9 @@ const Login = ({ loginUser }) => {
           />
           <Button type="submit" color="primary">Submit</Button>
         </form>
+        {alertMessages && alertMessages.map((msg) => {
+          return <Alert color="danger">{msg}</Alert>
+        })}
       </div>
     </>
   )

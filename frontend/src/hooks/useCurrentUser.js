@@ -17,8 +17,8 @@ const useCurrentUser = () => {
 
   if (currentUser === undefined) {
     const savedUser = JSON.parse(localStorage.getItem("user"));
-    savedUser.applications = [];
     if (savedUser) {
+      savedUser.applications = [];
       const { token, ...rest } = savedUser;
       setCurrentUser(rest);
       JoblyApi.token = token;
@@ -26,19 +26,31 @@ const useCurrentUser = () => {
   }
 
   const signupUser = async (signupInfo) => {
-    const newToken = await JoblyApi.signupUser(signupInfo);
-    JoblyApi.token = newToken;
-    const user = await JoblyApi.getUser(signupInfo.username);
-    setCurrentUser(user);
-    localStorage.setItem("user", JSON.stringify({ username: user.username, firstName: user.firstName, token: newToken }));
+    try {
+      const newToken = await JoblyApi.signupUser(signupInfo);
+      JoblyApi.token = newToken;
+      const user = await JoblyApi.getUser(signupInfo.username);
+      setCurrentUser(user);
+      localStorage.setItem("user", JSON.stringify({ username: user.username, firstName: user.firstName, token: newToken }));
+      return { successful: true };
+    }
+    catch(err) {
+      return { successful: false, messages: err };
+    }
   }
 
   const loginUser = async (loginInfo) => {
-    const newToken = await JoblyApi.loginUser(loginInfo);
-    JoblyApi.token = newToken;
-    const user = await JoblyApi.getUser(loginInfo.username);
-    setCurrentUser(user);
-    localStorage.setItem("user", JSON.stringify({ username: user.username, firstName: user.firstName, token: newToken }));
+    try {
+      const newToken = await JoblyApi.loginUser(loginInfo);
+      JoblyApi.token = newToken;
+      const user = await JoblyApi.getUser(loginInfo.username);
+      setCurrentUser(user);
+      localStorage.setItem("user", JSON.stringify({ username: user.username, firstName: user.firstName, token: newToken }));
+      return { successful: true };
+    }
+    catch(err) {
+      return { successful: false, messages: err };
+    }
   }
 
   const logoutUser = () => {
